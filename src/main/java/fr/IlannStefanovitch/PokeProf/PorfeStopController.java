@@ -91,12 +91,14 @@ public class PorfeStopController {
         Totale.getChildren().add(vbox);
         Totale.getChildren().add(vboxObject);
         root.setLeft(Totale);
-        //root.setBottom(PokeController.returnButton);
     }
 
     public void closeMenu() throws IOException {
-        PokeController.equipeJ1 = equipeJ;
-        MainPokeProf.switchFxml("/PokeProf.fxml");
+        if (equipeJ.size() != 0){
+            PokeController.equipeJ1 = equipeJ;
+            MainPokeProf.switchFxml("/PokeProf.fxml");
+        }
+
     }
 
     public void UpdateTeam (){
