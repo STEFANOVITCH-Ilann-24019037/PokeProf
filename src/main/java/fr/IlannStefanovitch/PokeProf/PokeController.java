@@ -172,11 +172,6 @@ public class PokeController {
         {
             indexJ2++;
             if (indexJ2 >= equipeJ2.size()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Victoire !");
-                alert.setHeaderText(null);
-                alert.setContentText("Tous les Pokémon ennemis sont vaincus !");
-                alert.showAndWait();
                 pokemonJ2.setVie(20);
                 indexJ2 = 0;
                 MainPokeProf.switchFxml("/ProfeStop.fxml");
@@ -192,11 +187,6 @@ public class PokeController {
         {
             indexJ1++;
             if (indexJ1 >= equipeJ1.size()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Perdu !");
-                alert.setHeaderText(null);
-                alert.setContentText("Tous vos Pokémon sont vaincus !");
-                alert.showAndWait();
                 pokemonJ1.setVie(20);
                 updateDisplay();//tempo pour le momen ou je trouve quoi faire
                 indexJ1 = 0;

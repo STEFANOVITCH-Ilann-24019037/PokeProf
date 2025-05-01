@@ -6,10 +6,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fr.IlannStefanovitch.PokeProf.PokeController"
+            fx:controller="fr.IlannStefanovitch.PokeProf.PorfeStopController"
             prefWidth="800" prefHeight="600">
-
+    <top>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="Titre" text="Secrétariat"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
         <center>
             <Label fx:id="LabelVide" text="vide"/>
         </center>

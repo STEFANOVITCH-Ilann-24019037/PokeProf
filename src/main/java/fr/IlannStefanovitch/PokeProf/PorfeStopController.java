@@ -1,39 +1,43 @@
 package fr.IlannStefanovitch.PokeProf;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import java.util.Timer;
-import java.util.TimerTask;
-import  fr.IlannStefanovitch.PokeProf.PokeController.*;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.scene.layout.VBox;
 
 public class PorfeStopController {
-    @FXML private BorderPane borderPane;
+    @FXML private BorderPane root;
+
+    private List<Pokemon> allPokemons ;
+    private List<Attack> allAttacks ;
 
     public void initialize(){
+
+        allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
+        allPokemons = PokemonLoader.loadPokemons(allAttacks);
         PorfeStop();
 
     }
     public void PorfeStop() {
-
-        for (int i = 0; i < PokeController.equipeJ1.size(); i++) {
+        AtomicInteger FinalIndex = new AtomicInteger(0);
+        for (int i = 0; i < allPokemons.size(); i++) {
             Button pokeButton = new Button();
-            Image img = new Image(getClass().getResourceAsStream("/smallImg/" + PokeController.equipeJ1.get(i).getNom() + ".png"));
-            pokeButton.setGraphic(new ImageView(img));
+            Image imgPoke = new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"));
+            pokeButton.setGraphic(new ImageView(imgPoke));
             pokeButton.setMaxHeight(100);
             pokeButton.setMaxWidth(100);
             int FinalI = i;
+
             pokeButton.setOnMouseClicked(e -> {
-                Pokemon tmp = new Pokemon();
-                tmp = PokeController.equipeJ1.get(PokeController.indexJ1);
-                PokeController.equipeJ1.set(PokeController.indexJ1, PokeController.equipeJ1.get(FinalI));
-                PokeController.equipeJ1.set(FinalI, tmp);
+                PokeController.equipeJ1.set(FinalIndex.get(),allPokemons.get(FinalI));
+                FinalIndex.set(FinalIndex.get() + 1);
 
             });
 
@@ -49,7 +53,7 @@ public class PorfeStopController {
 
             }
             VBox vbox = new VBox(tempoHboxPaire,tempoHbosImpaire);
-            borderPane.setCenter(vbox);
+            root.setCenter(vbox);
 
 
         }
