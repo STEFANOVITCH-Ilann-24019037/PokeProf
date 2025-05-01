@@ -32,13 +32,13 @@ public class PokeController {
     private Attack[] attacks = new Attack[3];
     private Attack[] attacksBot = new Attack[3];
     protected static ArrayList<Pokemon> equipeJ1 = new ArrayList<>();
-    private ArrayList<Pokemon> equipeJ2 = new ArrayList<>();
+    private final ArrayList<Pokemon> equipeJ2 = new ArrayList<>();
     private Pokemon pokemonJ1, pokemonJ2;
     protected static int indexJ1 = 0, indexJ2 = 0;
-    private Button returnButton = new Button("Return");
+    protected static Button returnButton = new Button("Return");
     private List<Attack> allAttacks ;
     private List<Pokemon> allPokemons ;
-    private List<Pokeobject> inventaire = new ArrayList<>() ;
+    protected static List<Pokeobject> inventaire = new ArrayList<>() ;
 
 
 
@@ -48,11 +48,9 @@ public class PokeController {
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
 
-        Pokemon p1 = allPokemons.get(1);
         Pokemon pBot = allPokemons.get(0);
+        PorfeStopController.equipeJ = equipeJ1;
 
-        equipeJ1.add(p1);
-        equipeJ1.add(allPokemons.get(0));
         equipeJ2.add(pBot);
         pokemonJ1 = equipeJ1.get(indexJ1);
         pokemonJ2 = equipeJ2.get(indexJ2);
@@ -139,27 +137,16 @@ public class PokeController {
 
             });
 
-            HBox tempoHboxPaire = new HBox();
-            HBox tempoHbosImpaire = new HBox();
-
-            if (i %2 ==0){
-
-                tempoHboxPaire.getChildren().add(pokeButton);
-            }
-            else {
-
-                tempoHbosImpaire.getChildren().add(pokeButton);
-
-            }
-            rightColumn.getChildren().add(tempoHbosImpaire);
-            rightColumn.getChildren().add(tempoHboxPaire);
+            HBox tempoVbox = new HBox();
+            tempoVbox.getChildren().add(pokeButton);
+            rightColumn.getChildren().add(tempoVbox);
 
 
         }
         leftColumn.getChildren().add(returnButton);
     }
 
-    private void closeMenu() {
+    protected void closeMenu() {
         leftColumn.getChildren().clear();
         rightColumn.getChildren().clear();
         leftColumn.getChildren().add(attackButton);

@@ -13,7 +13,7 @@ public class MainPokeProf extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         MainPokeProf.primaryStage = primaryStage;
-        FXMLLoader fxmlLoader = new FXMLLoader(MainPokeProf.class.getResource("/PokeProf.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainPokeProf.class.getResource("/ProfeStop.fxml"));
         String css = this.getClass().getResource("/pixel-art-style.css").toExternalForm();
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         scene.getStylesheets().add(css);
