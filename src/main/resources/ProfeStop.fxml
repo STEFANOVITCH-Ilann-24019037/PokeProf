@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.IlannStefanovitch.PokeProf.PokeController"
+            prefWidth="800" prefHeight="600">
+
+        <center>
+            <Label fx:id="LabelVide" text="vide"/>
+        </center>
+
+</BorderPane>

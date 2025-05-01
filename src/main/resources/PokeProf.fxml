@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.IlannStefanovitch.PokeProf.PokeController"
+            prefWidth="800" prefHeight="600">
+
+    <left>
+        <VBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label fx:id="LabelVideGauche" text=""/>
+        </VBox>
+    </left>
+
+    <right>
+        <VBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label fx:id="LabelLogDroite" text=""/>
+        </VBox>
+    </right>
+
+    <top>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="Titre" text="Combat Pokémon"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane fx:id="arena" hgap="20" vgap="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="pokemon1Label" text="Pokémon 1"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label fx:id="pokemon2Label" text="Pokémon 2"
+                   GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+            <ImageView fx:id="imageJ1"
+                       fitWidth="120" fitHeight="120"
+                       preserveRatio="true"
+                       GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <ImageView fx:id="imageJ2"
+                       fitWidth="120" fitHeight="120"
+                       preserveRatio="true"
+                       GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox fx:id="optionBottom" spacing="50" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <VBox fx:id="leftColumn" spacing="10" alignment="CENTER">
+                <Button fx:id="attackButton" text="Attaquer" prefWidth="120"/>
+            </VBox>
+            <VBox fx:id="rightColumn" spacing="10" alignment="CENTER">
+                <Button fx:id="testButton" text="Object" prefWidth="120"/>
+                <Button fx:id="PokeButton" text="Chois" prefWidth="120"/>
+            </VBox>
+        </HBox>
+    </bottom>
+
+</BorderPane>
