@@ -43,7 +43,6 @@ public class PokeController {
 
 
     public void initialize() {
-        inventaire.add(new Pokeobject("Coucou du Tenebre","Vous vous faite un calin",2,10));
         inventaire = PokeobjectLoader.load();
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
@@ -174,8 +173,8 @@ public class PokeController {
         {
             indexJ1++;
             if (indexJ1 >= equipeJ1.size()) {
-                pokemonJ1.setVie(20);
-                updateDisplay();//tempo pour le momen ou je trouve quoi faire
+                MainPokeProf.switchFxml("/ProfeStop.fxml");
+                updateDisplay();
                 indexJ1 = 0;
             } else {
                 pokemonJ1 = equipeJ1.get(indexJ1);
@@ -273,6 +272,7 @@ public class PokeController {
     public void openObjectMenu(){
         leftColumn.getChildren().clear();
         rightColumn.getChildren().clear();
+
         for (int i =0;i<inventaire.size();i++)
         {
             Button b = new Button(inventaire.get(i).getNomObjet()+ " x " +inventaire.get(i).getNb());

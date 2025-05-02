@@ -1,3 +1,3 @@
-Coucou; il fait ce que tu ne peut pas faire;2;2;
-Manger Une Pomme ; Elle etait bonne ;1;2;
-J'ai vraiment pas d'idee ; la c'est la fin ;3;2;
+Coucou; il fait ce que tu ne peut pas faire;2;0;
+Manger Une Pomme ; Elle etait bonne ;1;0;
+J'ai vraiment pas d'idee ; la c'est la fin ;3;0;

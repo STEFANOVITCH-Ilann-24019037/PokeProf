@@ -20,11 +20,13 @@ public class PorfeStopController {
     private List<Attack> allAttacks;
     private List<Pokeobject> allObjects;
     protected static ArrayList<Pokemon> equipeJ = new ArrayList<>();
+    private VBox Vteam =new VBox();
 
     public void initialize() {
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
         allObjects   = PokeobjectLoader.load();
+        UpdateTeam();
         PorfeStop();
         PokeController.returnButton.setOnAction(e -> {
             try {
@@ -36,9 +38,13 @@ public class PorfeStopController {
     }
 
     public void PorfeStop() {
+
         VBox vbox = new VBox();
         VBox BasBox = new VBox();
+        VBox vboxObject = new VBox();
+
         for (int i = 0; i < allPokemons.size(); i++) {
+
             Button pokeButton = new Button();
             pokeButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"))));
             pokeButton.setMaxHeight(100);
@@ -52,29 +58,22 @@ public class PorfeStopController {
             pokeButton.setOnMouseClicked(e -> {
                 if (equipeJ.size() < 4){
                     equipeJ.add(allPokemons.get(FinalI));
-
+                    UpdateTeam();
                 }
-
-
             });
 
             HBox tempoHbox = new HBox(pokeButton);
             vbox.getChildren().add(tempoHbox);
 
         }
-        BasBox.getChildren().add(PokeController.returnButton);
-        root.setLeft(vbox);
-        root.setBottom(BasBox);
 
         //Object
-        VBox vboxObject = new VBox();
 
-        for (int i = 0; i < allPokemons.size(); i++) {
+        for (int o = 0; o < allObjects.size(); o++) {
             Button ObButton = new Button();
-            ObButton.setText(allObjects.get(i).getNomObjet());
+            ObButton.setText(allObjects.get(o).getNomObjet());
             ObButton.setMaxHeight(100);
-            ObButton.setMaxWidth(100);
-            int FinalIOb = i;
+            int FinalIOb = o;
 
             ObButton.setOnMouseClicked(e -> {
                 if (PokeController.inventaire.contains(allObjects.get(FinalIOb))){
@@ -86,13 +85,36 @@ public class PorfeStopController {
 
             HBox tempoHbox = new HBox(ObButton);
             vboxObject.getChildren().add(tempoHbox);
+            root.setBottom(PokeController.returnButton);
         }
-        root.setLeft(vbox);
-        root.setBottom(PokeController.returnButton);
+        HBox Totale = new HBox();
+        Totale.getChildren().add(vbox);
+        Totale.getChildren().add(vboxObject);
+        root.setLeft(Totale);
     }
 
     public void closeMenu() throws IOException {
-        PokeController.equipeJ1 = equipeJ;
-        MainPokeProf.switchFxml("/PokeProf.fxml");
+        if (equipeJ.size() != 0){
+            PokeController.equipeJ1 = equipeJ;
+            MainPokeProf.switchFxml("/PokeProf.fxml");
+        }
+
+    }
+
+    public void UpdateTeam (){
+        Vteam.getChildren().clear();
+        for (int i = 0 ; i< equipeJ.size();i++){
+            Button BtTeam = new Button();
+            BtTeam.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + equipeJ.get(i).getNom() + ".png"))));
+            BtTeam.setMaxHeight(100);
+            BtTeam.setMaxWidth(100);
+            Vteam.getChildren().add(BtTeam);
+            int FinalI = i;
+            BtTeam.setOnAction(e->{
+                equipeJ.remove(equipeJ.get(FinalI));
+                UpdateTeam();
+            });
+        }
+        root.setRight(Vteam);
     }
 }
