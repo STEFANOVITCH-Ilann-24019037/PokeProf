@@ -21,12 +21,6 @@ public class MainPokeProf extends Application {
         primaryStage.show();
     }
 
-    public static void closeWin() {
-        if (primaryStage != null) {
-            primaryStage.close();
-        }
-    }
-
     public static void switchFxml(String fxml) throws IOException {
         if (primaryStage != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainPokeProf.class.getResource(fxml));
