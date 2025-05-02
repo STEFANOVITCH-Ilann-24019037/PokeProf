@@ -20,7 +20,7 @@
         </HBox>
     </top>
         <center>
-            <Label fx:id="LabelVide" text="vide"/>
+            <Label fx:id="LabelVide" text=" "/>
         </center>
 
 </BorderPane>

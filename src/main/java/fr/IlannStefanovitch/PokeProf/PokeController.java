@@ -272,6 +272,7 @@ public class PokeController {
     public void openObjectMenu(){
         leftColumn.getChildren().clear();
         rightColumn.getChildren().clear();
+
         for (int i =0;i<inventaire.size();i++)
         {
             Button b = new Button(inventaire.get(i).getNomObjet()+ " x " +inventaire.get(i).getNb());
