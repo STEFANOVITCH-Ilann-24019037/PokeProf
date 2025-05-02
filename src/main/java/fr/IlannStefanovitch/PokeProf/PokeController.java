@@ -113,6 +113,9 @@ public class PokeController {
             Button pokeButton = new Button();
             Image img = new Image(getClass().getResourceAsStream("/smallImg/"+equipeJ1.get(i).getNom()+".png"));
             pokeButton.setGraphic( new ImageView(img));
+            if (equipeJ1.get(i).getVie() <=0){
+                pokeButton.setDisable(true);
+            }
             pokeButton.setMaxHeight(100);
             pokeButton.setMaxWidth(100);
             int FinalI = i;
@@ -158,10 +161,8 @@ public class PokeController {
         {
             indexJ2++;
             if (indexJ2 >= equipeJ2.size()) {
-                pokemonJ2.setVie(20);
                 indexJ2 = 0;
                 MainPokeProf.switchFxml("/ProfeStop.fxml");
-                updateDisplay();//tempo pour le momen ou je trouve quoi faire
             } else {
                 pokemonJ2 = equipeJ2.get(indexJ2);
                 updateDisplay();
@@ -174,7 +175,6 @@ public class PokeController {
             indexJ1++;
             if (indexJ1 >= equipeJ1.size()) {
                 MainPokeProf.switchFxml("/ProfeStop.fxml");
-                updateDisplay();
                 indexJ1 = 0;
             } else {
                 pokemonJ1 = equipeJ1.get(indexJ1);
@@ -208,7 +208,7 @@ public class PokeController {
             if (vieTempo[i] <= VieFinale)
             {
                 VieFinale = vieTempo[i];
-                 iFinale = i;
+                iFinale = i;
             }
         }
 
@@ -236,18 +236,18 @@ public class PokeController {
         Image imgVide = new Image(getClass().getResourceAsStream("/img/Vide.png"));
         if (joueur)
         {
-           for( int i = 0 ; i<3 ; i++)
-           {
-               imageJ1.setImage(imgVide);
-               Timer timer = new Timer();
-               timer.schedule(new TimerTask() {
-                   @Override
-                   public void run() {
-                       Image imgImage = new Image(getClass().getResourceAsStream("/img/" + equipeJ1.get(indexJ1).getNom() + ".png"));
-                       imageJ1.setImage(imgImage);
-                   }
-               }, 50);
-           }
+            for( int i = 0 ; i<3 ; i++)
+            {
+                imageJ1.setImage(imgVide);
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Image imgImage = new Image(getClass().getResourceAsStream("/img/" + equipeJ1.get(indexJ1).getNom() + ".png"));
+                        imageJ1.setImage(imgImage);
+                    }
+                }, 50);
+            }
             equipeJ1.get(indexJ1).setVie(equipeJ1.get(indexJ1).getVie()-lesDega);
         }
         else

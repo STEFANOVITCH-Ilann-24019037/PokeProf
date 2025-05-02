@@ -16,17 +16,19 @@ import java.util.List;
 public class PorfeStopController {
     @FXML private BorderPane root;
 
-    private List<Pokemon> allPokemons;
+    private List<Pokemon> allPokemons  ;
+    private List<Pokemon> allPokemonsFull  ;
     private List<Attack> allAttacks;
     private List<Pokeobject> allObjects;
     protected static ArrayList<Pokemon> equipeJ = new ArrayList<>();
     private VBox Vteam =new VBox();
 
     public void initialize() {
+
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
         allObjects   = PokeobjectLoader.load();
-        UpdateTeam();
+        allPokemonsFull = PokemonLoader.loadPokemons(allAttacks);
         PorfeStop();
         PokeController.returnButton.setOnAction(e -> {
             try {
@@ -43,27 +45,35 @@ public class PorfeStopController {
         VBox BasBox = new VBox();
         VBox vboxObject = new VBox();
 
+
         for (int i = 0; i < allPokemons.size(); i++) {
+            if(! equipeJ.contains(allPokemons.get(i))) {
+                Button pokeButton = new Button();
 
-            Button pokeButton = new Button();
-            pokeButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"))));
-            pokeButton.setMaxHeight(100);
-            pokeButton.setMaxWidth(100);
+                pokeButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"))));
+                pokeButton.setMaxHeight(100);
+                pokeButton.setMaxWidth(100);
 
-            Label labelImg = new Label("Vide");
-            labelImg.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"))));
+                Label labelImg = new Label("Vide");
+                labelImg.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + allPokemons.get(i).getNom() + ".png"))));
 
-            int FinalI = i;
+                int FinalI = i;
 
-            pokeButton.setOnMouseClicked(e -> {
-                if (equipeJ.size() < 4){
-                    equipeJ.add(allPokemons.get(FinalI));
-                    UpdateTeam();
-                }
-            });
+                pokeButton.setOnMouseClicked(e -> {
+                    if (equipeJ.size() < 4) {
+                        equipeJ.add(allPokemons.get(FinalI));
+                        UpdateTeam();
+                        pokeButton.setDisable(true);
+                        Pokemon pokeTempo = (allPokemons.get(FinalI));
+                        PorfeStop();
 
-            HBox tempoHbox = new HBox(pokeButton);
-            vbox.getChildren().add(tempoHbox);
+
+                    }
+                });
+
+                HBox tempoHbox = new HBox(pokeButton);
+                vbox.getChildren().add(tempoHbox);
+            }
 
         }
 
@@ -77,7 +87,7 @@ public class PorfeStopController {
 
             ObButton.setOnMouseClicked(e -> {
                 if (PokeController.inventaire.contains(allObjects.get(FinalIOb))){
-                   int index = PokeController.inventaire.indexOf(allObjects.get(FinalIOb));
+                    int index = PokeController.inventaire.indexOf(allObjects.get(FinalIOb));
                     PokeController.inventaire.get(index).setNb(PokeController.inventaire.get(index).getNb() + 1);
                 }
                 PokeController.inventaire.add(allObjects.get(FinalIOb));
@@ -87,6 +97,7 @@ public class PorfeStopController {
             vboxObject.getChildren().add(tempoHbox);
             root.setBottom(PokeController.returnButton);
         }
+
         HBox Totale = new HBox();
         Totale.getChildren().add(vbox);
         Totale.getChildren().add(vboxObject);
@@ -101,9 +112,10 @@ public class PorfeStopController {
 
     }
 
-    public void UpdateTeam (){
+    public void UpdateTeam ( ){
         Vteam.getChildren().clear();
-        for (int i = 0 ; i< equipeJ.size();i++){
+        int Size = equipeJ.size() ;
+        for (int i = 0 ; i< Size;i++){
             Button BtTeam = new Button();
             BtTeam.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/smallImg/" + equipeJ.get(i).getNom() + ".png"))));
             BtTeam.setMaxHeight(100);
@@ -113,8 +125,10 @@ public class PorfeStopController {
             BtTeam.setOnAction(e->{
                 equipeJ.remove(equipeJ.get(FinalI));
                 UpdateTeam();
+                PorfeStop();
             });
         }
         root.setRight(Vteam);
     }
+
 }
