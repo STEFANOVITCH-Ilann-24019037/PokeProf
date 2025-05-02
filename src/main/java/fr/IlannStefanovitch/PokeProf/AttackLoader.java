@@ -16,12 +16,13 @@ public class AttackLoader {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
-                if (parts.length == 4) {
+                if (parts.length == 5) {
                     int vieEnMoins = Integer.parseInt(parts[0]);
                     String nomAttack = parts[1];
                     String type = parts[2];
                     String desc = parts[3];
-                    attacks.add(new Attack(vieEnMoins, nomAttack, type,desc));
+                    String etat = parts[4];
+                    attacks.add(new Attack(vieEnMoins, nomAttack, type,desc,etat));
                 }
             }
         } catch (Exception e) {

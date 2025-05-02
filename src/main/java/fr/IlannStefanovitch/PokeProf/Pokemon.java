@@ -5,13 +5,23 @@ public class Pokemon {
     private int vie;
     private Attack[] attack;
     private String type;
+    private String etat;
 
     public Pokemon(String Nom,int Vie,Attack[] attack,String type){
         this.Nom = Nom;
         this.attack = attack;
         this.vie = Vie;
         this.type = type;
+        etat = null;
     }
+    public Pokemon(String Nom,int Vie,Attack[] attack,String type,String etat){
+        this.Nom = Nom;
+        this.attack = attack;
+        this.vie = Vie;
+        this.type = type;
+        this.etat = etat;
+    }
+
     public Pokemon(){
         Nom = "Vide";
     }
@@ -43,4 +53,11 @@ public class Pokemon {
         return vie;
     }
 
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
 }
