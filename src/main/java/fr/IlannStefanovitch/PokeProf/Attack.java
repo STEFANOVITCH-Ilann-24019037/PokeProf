@@ -5,6 +5,14 @@ public class Attack {
     private String NomAttack;
     private String Type;
     private String desc;
+    private String donneEtat;
+    public Attack(int VieEnMoins,String NomAttack,String Type,String desc,String donneEtat){
+        this.VieEnMoins = VieEnMoins;
+        this.NomAttack = NomAttack;
+        this.Type = Type;
+        this.desc = desc;
+        this.donneEtat = donneEtat;
+    }
     public Attack(int VieEnMoins,String NomAttack,String Type,String desc){
         this.VieEnMoins = VieEnMoins;
         this.NomAttack = NomAttack;
@@ -14,6 +22,10 @@ public class Attack {
 
     public int getVieEnMoins() {
         return VieEnMoins;
+    }
+
+    public String getDonneEtat() {
+        return donneEtat;
     }
 
     public String getDesc() {

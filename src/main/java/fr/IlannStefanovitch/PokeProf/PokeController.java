@@ -47,10 +47,10 @@ public class PokeController {
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
 
-        Pokemon pBot = allPokemons.get(0);
         PorfeStopController.equipeJ = equipeJ1;
 
-        equipeJ2.add(pBot);
+        equipeJ2.add(allPokemons.get(0));
+
         pokemonJ1 = equipeJ1.get(indexJ1);
         pokemonJ2 = equipeJ2.get(indexJ2);
 
@@ -76,30 +76,38 @@ public class PokeController {
 
             int finalI = i;
             Button b = new Button(attacks[i].getNomAttack());
+            String etat = equipeJ1.get(indexJ1).getEtat();
             b.setOnAction(e -> {
-                if (pokemonJ2.getVie() >= attacks[finalI].getVieEnMoins()) {
-                    PrendDeg(attacks[finalI].getVieEnMoins(),false);
-                    updateDisplay();
-                    LogLabel(attacks[finalI].getDesc());
-                    closeMenu();
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Platform.runLater(() -> botAttack());
-                        }
-                    },700);
+                if (etat == null || etat == "Brule" || etat == "Poisson"){
+                    if (pokemonJ2.getVie() >= attacks[finalI].getVieEnMoins()) {
+                        PrendDeg(attacks[finalI].getVieEnMoins(),false);
+                        updateDisplay();
+                        LogLabel(attacks[finalI].getDesc());
+                        closeMenu();
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Platform.runLater(() -> botAttack());
+                            }
+                        },700);
 
-                } else {
-                    pokemonJ2.setVie(0);
-                    updateDisplay();
-                    try {
-                        endMatch(true);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } else {
+                        pokemonJ2.setVie(0);
+                        updateDisplay();
+                        try {
+                            endMatch(true);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
+                else {
+                    LogLabel("Non Non Non");
+                }
+
             });
+
             rightColumn.getChildren().add(b);
         }
 
@@ -297,5 +305,5 @@ public class PokeController {
             LabelLogDroite.setText(text);
         }
     }
-
 }
+
