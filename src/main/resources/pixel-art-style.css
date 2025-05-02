@@ -13,13 +13,14 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 100px;
 }
 
 /* Style pour les boutons */
 button {
     background-color: #ff0000; /* Couleur rouge vif */
-    border: 2px solid #fff; /* Bordure blanche */
+    border: 2px ; /* Bordure blanche */
+    border-color: white;
     color: #fff; /* Texte blanc */
     font-size: 16px;
     padding: 10px 20px;
@@ -46,7 +47,8 @@ img {
 /* Style pour les zones de texte */
 textarea {
     background-color: #333; /* Fond sombre */
-    border: 2px solid #fff; /* Bordure blanche */
+    border: 2px; /* Bordure blanche */
+    border-color: white;
     color: #fff; /* Texte blanc */
     font-family: 'Press Start 2P', cursive;
     padding: 10px;
@@ -56,7 +58,8 @@ textarea {
 /* Style pour les alertes */
 .alert {
     background-color: #ff0000; /* Fond rouge */
-    border: 2px solid #fff; /* Bordure blanche */
+    border: 2px ; /* Bordure blanche */
+    border-color: white;
     color: #fff; /* Texte blanc */
     padding: 20px;
     margin: 10px;
