@@ -43,12 +43,12 @@ public class PokeController {
 
 
     public void initialize() {
-        inventaire = PokeobjectLoader.load();
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
 
         Pokemon pBot = allPokemons.get(0);
         PorfeStopController.equipeJ = equipeJ1;
+        PorfeStopController.inventaire =inventaire;
 
         equipeJ2.add(pBot);
         pokemonJ1 = equipeJ1.get(indexJ1);
@@ -275,7 +275,7 @@ public class PokeController {
 
         for (int i =0;i<inventaire.size();i++)
         {
-            Button b = new Button(inventaire.get(i).getNomObjet()+ " x " +inventaire.get(i).getNb());
+            Button b = new Button(inventaire.get(i).getNomObjet()+ " x " +(inventaire.get(i).getNb()+1));
             int finalI = i;
             b.setOnAction(e -> {
                 inventaire.get(finalI).useObejct(equipeJ1.get(indexJ1));
@@ -284,7 +284,7 @@ public class PokeController {
                 updateDisplay();
 
             });
-            if (inventaire.get(finalI).getNb()>0){
+            if (inventaire.get(finalI).getNb()>=0){
                 rightColumn.getChildren().add(b);
             }
         }
