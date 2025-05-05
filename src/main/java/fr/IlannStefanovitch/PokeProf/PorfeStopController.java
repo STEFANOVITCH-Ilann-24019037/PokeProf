@@ -135,7 +135,7 @@ public class PorfeStopController {
         root.setRight(Vteam);
     }
 
-   public void updateInventaire (){
+    public void updateInventaire (){
         VBox vBox = new VBox();
         for (int i =0 ;i< inventaire.size();i++){
             Button btObject = new Button();
