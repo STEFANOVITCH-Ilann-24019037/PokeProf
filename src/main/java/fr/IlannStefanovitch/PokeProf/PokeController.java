@@ -281,6 +281,14 @@ public class PokeController {
                 inventaire.get(finalI).useObejct(equipeJ1.get(indexJ1));
                 openObjectMenu();
                 LabelLogDroite.setText(LabelLogDroite.getText()+"\r \r"+inventaire.get(finalI).getDesc());
+                closeMenu();
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(()->botAttack());
+                    }
+                },700);
                 updateDisplay();
 
             });
