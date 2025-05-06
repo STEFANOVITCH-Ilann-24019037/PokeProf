@@ -162,6 +162,7 @@ public class PokeController {
             indexJ2++;
             if (indexJ2 >= equipeJ2.size()) {
                 indexJ2 = 0;
+                inventaire.clear();
                 MainPokeProf.switchFxml("/ProfeStop.fxml");
             } else {
                 pokemonJ2 = equipeJ2.get(indexJ2);
@@ -174,8 +175,10 @@ public class PokeController {
         {
             indexJ1++;
             if (indexJ1 >= equipeJ1.size()) {
-                MainPokeProf.switchFxml("/ProfeStop.fxml");
                 indexJ1 = 0;
+                inventaire.clear();
+                MainPokeProf.switchFxml("/ProfeStop.fxml");
+
             } else {
                 pokemonJ1 = equipeJ1.get(indexJ1);
                 updateDisplay();

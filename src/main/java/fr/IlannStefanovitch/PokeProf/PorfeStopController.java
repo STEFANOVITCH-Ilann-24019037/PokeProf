@@ -19,18 +19,24 @@ public class PorfeStopController {
 
     private List<Pokemon> allPokemons  ;
     private List<Attack> allAttacks;
-    private List<Pokeobject> allObjects;
+    private List<Pokeobject> allObjects = new ArrayList<>();
     protected static List<Pokeobject> inventaire = new ArrayList<>();
     protected static ArrayList<Pokemon> equipeJ = new ArrayList<>();
     private VBox Vteam =new VBox();
 
     public void initialize() {
+        List<Pokeobject> allObjectsNew = new ArrayList<>();
         equipeJ.clear();
         inventaire.clear();
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
         allObjects = PokeobjectLoader.load();
+        if (allObjectsNew.size() != allObjects.size()){
+            allObjects.clear();
+            allObjects = PokeobjectLoader.load();
+        }
         PorfeStop();
+        updateInventaire();
         PokeController.returnButton.setOnAction(e -> {
             try {
                 closeMenu();
