@@ -79,25 +79,53 @@ public class PorfeStopController {
         }
 
         //Object
-
-        for (int o = 0; o < allObjects.size(); o++) {
-            Button ObButton = new Button();
-            ObButton.setText(allObjects.get(o).getNomObjet());
-            ObButton.setMaxHeight(100);
-            int FinalIOb = o;
-
-            ObButton.setOnMouseClicked(e -> {
-                if (inventaire.contains(allObjects.get(FinalIOb))){
-                    int index =inventaire.indexOf(allObjects.get(FinalIOb));
-                    inventaire.get(index).setNb(inventaire.get(index).getNb() + 1);
-                }else {
-                    inventaire.add(allObjects.get(FinalIOb));
-                }
-                updateInventaire();
-            });
-
-            HBox tempoHbox = new HBox(ObButton);
+        if (allObjects.size() == 0){
+            Label labelVide = new Label("Vide");
+            HBox tempoHbox = new HBox(labelVide);
             vboxObject.getChildren().add(tempoHbox);
+        }
+        else {
+            for (int o = 0; o < allObjects.size(); o++) {
+                Button ObButton = new Button();
+                ObButton.setText(allObjects.get(o).getNomObjet() + " X" + (allObjects.get(o).getNb()+1));
+                ObButton.setMaxHeight(100);
+                int FinalIOb = o;
+
+                ObButton.setOnMouseClicked(e -> {
+                    Pokeobject sourceObj = allObjects.get(FinalIOb);
+                    int nbInAll = sourceObj.getNb();
+                    if (nbInAll < 0) {
+                        System.out.println("Plus d'exemplaires disponibles !");
+                        return;
+                    }
+                    int invIndex = inventaire.indexOf(sourceObj);
+                    if (invIndex >= 0) {
+                        // Déjà présent → on incrémente
+                        Pokeobject objInInv = inventaire.get(invIndex);
+                        objInInv.setNb(objInInv.getNb() + 1);
+                    } else {
+                        // Pas encore → on ajoute avec nb = 0
+                        Pokeobject newObj = new Pokeobject(sourceObj);
+                        newObj.setNb(0);
+                        inventaire.add(newObj);
+                    }
+                    if (nbInAll >0) {
+                        sourceObj.setNb(nbInAll - 1);
+                    }
+                    else {
+                        sourceObj.setNb(-1);
+                        allObjects.remove(FinalIOb);
+                    }
+                    updateInventaire();
+                    PorfeStop();
+                });
+
+
+                HBox tempoHbox = new HBox(ObButton);
+                vboxObject.getChildren().add(tempoHbox);
+
+        }
+
             root.setBottom(PokeController.returnButton);
         }
 
@@ -142,16 +170,32 @@ public class PorfeStopController {
             btObject.setText(inventaire.get(i).getNomObjet() + " x" +(inventaire.get(i).getNb()+1));
             int FinalI = i;
             vBox.getChildren().add(btObject);
-            btObject.setOnMouseClicked(e ->{
-                if(inventaire.get(FinalI).getNb() >0){
-                    inventaire.get(FinalI).setNb(inventaire.get(FinalI).getNb() - 1);
-                }
-                else {
-                    inventaire.remove(FinalI);
+            btObject.setOnMouseClicked(e -> {
+                Pokeobject objFromInv = inventaire.get(FinalI);
+                int nbInInv = objFromInv.getNb();
+                int allIndex = allObjects.indexOf(objFromInv);
 
+                if (allIndex >= 0) {
+                    // trouvé → on incrémente
+                    Pokeobject objInAll = allObjects.get(allIndex);
+                    objInAll.setNb(objInAll.getNb() + 1);
+                } else {
+                    Pokeobject newObj = new Pokeobject(objFromInv);
+                    newObj.setNb(0);
+                    allObjects.add(newObj);
                 }
+
+                if (nbInInv > 0) {
+                    objFromInv.setNb(nbInInv - 1);
+                } else {
+                    inventaire.remove(FinalI);
+                }
+
+                PorfeStop();
                 updateInventaire();
             });
+
+
         }
         root.setCenter(vBox);
 
