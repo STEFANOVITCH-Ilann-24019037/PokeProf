@@ -1,7 +1,7 @@
-1;Flammeche;Feu;pas mal pour un mortel;
-3;Charge;Normal;salut C'est Jean Fils;
-2;Eclair;Electrik;ZZZZZZZZZ ca fait mal;
-3;Vibraqua;Eau;Pas bien ;
-1;Attack Du Chinoi;Comda;Mange Tout Les Chiens;
-20;Partimoine Genetique;Ombre;Abou Nous Sort le grand jeu;
-1;Il est genti;fee;Il nous sort le paff;
+1;Flammeche;Feu;pas mal pour un mortel;null;
+3;Charge;Normal;salut C'est Jean Fils;null;
+2;Eclair;Electrik;ZZZZZZZZZ ca fait mal;null;
+3;Vibraqua;Eau;Pas bien ;null;
+1;Attack Du Chinoi;Comda;Mange Tout Les Chiens;null;
+20;Partimoine Genetique;Ombre;Abou Nous Sort le grand jeu;Brule;
+1;Il est genti;fee;Il nous sort le paff;null;

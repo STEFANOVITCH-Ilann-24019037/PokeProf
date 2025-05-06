@@ -5,6 +5,7 @@ public class Pokemon {
     private int vie;
     private Attack[] attack;
     private String type;
+    private Etat etat;
 
     public Pokemon(String Nom,int Vie,Attack[] attack,String type){
         this.Nom = Nom;
@@ -14,9 +15,6 @@ public class Pokemon {
     }
     public Pokemon(){
         Nom = "Vide";
-    }
-    public void PokemonAttack(Attack attack,Pokemon cible){
-        cible.setVie(cible.getVie()-attack.getVieEnMoins());
     }
 
     public String getNom() {
@@ -43,4 +41,11 @@ public class Pokemon {
         return vie;
     }
 
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public Etat getEtat() {
+        return etat;
+    }
 }

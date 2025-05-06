@@ -14,10 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class PokeController {
     @FXML private Label pokemon1Label, pokemon2Label,LabelLogDroite,LabelVideGauche;
@@ -39,6 +36,7 @@ public class PokeController {
     private List<Attack> allAttacks ;
     private List<Pokemon> allPokemons ;
     protected static List<Pokeobject> inventaire = new ArrayList<>() ;
+    private Etat etatNull = new Etat("null");
 
 
 
@@ -46,17 +44,25 @@ public class PokeController {
         allAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         allPokemons = PokemonLoader.loadPokemons(allAttacks);
 
-        Pokemon pBot = allPokemons.get(0);
+        Pokemon pBot = allPokemons.getFirst();
         PorfeStopController.equipeJ = equipeJ1;
         PorfeStopController.inventaire =inventaire;
-
         equipeJ2.add(pBot);
         pokemonJ1 = equipeJ1.get(indexJ1);
         pokemonJ2 = equipeJ2.get(indexJ2);
 
-        Image img = new Image(getClass().getResourceAsStream("/img/"+equipeJ1.get(indexJ1).getNom()+".png"));
+        for ( Pokemon pokemon : equipeJ1){
+            pokemon.setEtat(etatNull);
+        }
+        for (Pokemon pokemon : equipeJ2){
+            pokemon.setEtat(etatNull);
+        }
+
+
+
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/" + equipeJ1.get(indexJ1).getNom() + ".png")));
         imageJ1.setImage(img);
-        Image imgBot = new Image(getClass().getResourceAsStream("/img/"+equipeJ2.get(indexJ2).getNom()+".png"));
+        Image imgBot = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/" + equipeJ2.get(indexJ2).getNom() + ".png")));
         imageJ2.setImage(imgBot);
 
         updateDisplay();
@@ -83,12 +89,27 @@ public class PokeController {
                     LogLabel(attacks[finalI].getDesc());
                     closeMenu();
                     Timer timer = new Timer();
+                    Timer timer1 = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             Platform.runLater(() -> botAttack());
                         }
                     },700);
+
+                    timer1.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (equipeJ1.get(indexJ1).getEtat().getEtat() != "null" ) {
+                                Platform.runLater(() -> EtatPoke(equipeJ1.get(indexJ1).getEtat().getEtat(), true));
+                            }
+                            if (equipeJ2.get(indexJ2).getEtat().getEtat() != "null"  ) {
+                                Platform.runLater(() -> EtatPoke(equipeJ2.get(indexJ2).getEtat().getEtat(),false));
+                            }
+
+                        }
+                    },500);
+
 
                 } else {
                     pokemonJ2.setVie(0);
@@ -194,6 +215,13 @@ public class PokeController {
         pokemon1Label.setText(equipeJ1.get(indexJ1).getNom() + "\r Moyenne : " + equipeJ1.get(indexJ1).getVie());
         pokemon2Label.setText(equipeJ2.get(indexJ2).getNom() + "\r Moyenne : " + equipeJ2.get(indexJ2).getVie());
 
+        if (equipeJ1.get(indexJ1).getEtat().getEtat() != "null"){
+            pokemon1Label.setText(pokemon1Label.getText()+ "\r "+ equipeJ1.get(indexJ1).getEtat().getEtat());
+        }
+        if (equipeJ2.get(indexJ2).getEtat().getEtat() != "null"){
+            pokemon2Label.setText(pokemon2Label.getText()+ "\r "+ equipeJ2.get(indexJ2).getEtat().getEtat());
+        }
+
 
 
     }
@@ -204,12 +232,14 @@ public class PokeController {
         int[] vieTempo = new int[3];
         int iFinale = -1;
         int VieFinale = 1000000000;
+        String etatFinale = "null";
 
         for (int i =0;i <vieTempo.length;i++)
         {
             vieTempo[i] = (equipeJ1.get(indexJ1).getVie())-attacksBot[i].getVieEnMoins();
             if (vieTempo[i] <= VieFinale)
             {
+                etatFinale = attacksBot[i].getEffect().getEtat();
                 VieFinale = vieTempo[i];
                 iFinale = i;
             }
@@ -228,7 +258,9 @@ public class PokeController {
         }
         else
         {
-
+            if (etatFinale != "null") {
+                equipeJ1.get(indexJ1).setEtat(new Etat(etatFinale));
+            }
             PrendDeg( equipeJ1.get(indexJ1).getVie() -VieFinale,true);
             LogLabel(equipeJ2.get(indexJ2).getAttack()[iFinale].getDesc());
             updateDisplay();
@@ -306,6 +338,54 @@ public class PokeController {
         LabelLogDroite.setText(LabelLogDroite.getText()+"\r \r"+text);
         if(LabelLogDroite.getHeight() > 500){
             LabelLogDroite.setText(text);
+        }
+    }
+
+    public void EtatPoke(String etat,Boolean joueur){
+        if (etat != "null") switch (etat) {
+            case "Brule":
+                Brule(joueur);
+                LogLabel("Du feu");
+                PrendDeg(10,true);
+
+        }
+    }
+
+    public void Brule(Boolean joueur){
+
+        Image imgRouge = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/Rouge.png")));
+
+        if (joueur)
+        {
+            for( int i = 0 ; i<5 ; i++)
+            {
+                imageJ1.setImage(imgRouge);
+                imageJ1.setStyle("background-color: Red;");
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Image imgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/" + equipeJ1.get(indexJ1).getNom() + ".png")));
+                        System.out.println("coucouJeSuisLa");
+                        imageJ1.setImage(imgImage);
+                    }
+                }, 50);
+            }
+        }
+        else
+        {
+            for( int i = 0 ; i<3 ; i++)
+            {
+                imageJ2.setImage(imgRouge);
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Image imgImage = new Image(getClass().getResourceAsStream("/img/" + equipeJ2.get(indexJ2).getNom() + ".png"));
+                        imageJ2.setImage(imgImage);
+                    }
+                }, 50);
+            }
         }
     }
 
