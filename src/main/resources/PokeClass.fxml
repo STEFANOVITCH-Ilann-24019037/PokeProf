@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Label?>
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.Sae.Test.PokeClassController"
+            prefWidth="800" prefHeight="600">
+   <left>
+      <VBox fx:id="poicheBot" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="dosCarteBot" fitHeight="150.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="Fin" mnemonicParsing="false" text="Fin" onAction="#finTour" />
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox fx:id="piocheJoueur" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView  fx:id="dosCarteJoueur" fitHeight="150.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+   </right>
+   <center>
+
+      <VBox fx:id="jeu" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <Label fx:id="labelTour" text="Tour : 1"
+                style="-fx-font-size: 40px; -fx-text-fill: white; -fx-background-color: rgba(0,0,0,0.7); -fx-padding: 20px;"
+                visible="false" />
+
+         <children>
+            <HBox fx:id="bancBot" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="carteBot" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="carteJoueur" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox fx:id="bancJoueur" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox fx:id="mainBot" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" rotate="180.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox fx:id="mainJoueur" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="energie" mnemonicParsing="false" text="energie" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>
+

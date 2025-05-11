@@ -3,7 +3,6 @@ package fr.IlannStefanovitch.PokeProf;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -85,30 +84,10 @@ public class PokeController {
             b.setOnAction(e -> {
                 if (pokemonJ2.getVie() >= attacks[finalI].getVieEnMoins()) {
                     PrendDeg(attacks[finalI].getVieEnMoins(),false);
+                    equipeJ2.get(indexJ2).setEtat(attacks[finalI].getEffect());
                     updateDisplay();
                     LogLabel(attacks[finalI].getDesc());
-                    closeMenu();
-                    Timer timer = new Timer();
-                    Timer timer1 = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Platform.runLater(() -> botAttack());
-                        }
-                    },700);
-
-                    timer1.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            if (equipeJ1.get(indexJ1).getEtat().getEtat() != "null" ) {
-                                Platform.runLater(() -> EtatPoke(equipeJ1.get(indexJ1).getEtat().getEtat(), true));
-                            }
-                            if (equipeJ2.get(indexJ2).getEtat().getEtat() != "null"  ) {
-                                Platform.runLater(() -> EtatPoke(equipeJ2.get(indexJ2).getEtat().getEtat(),false));
-                            }
-
-                        }
-                    },500);
+                    finTour();
 
 
                 } else {
@@ -148,14 +127,7 @@ public class PokeController {
                 imageJ1.setImage(img);
                 updateDisplay();
                 LogLabel(equipeJ1.get(indexJ1).getNom() +" a l'ataque" );
-                closeMenu();
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Platform.runLater(() -> botAttack());
-                    }
-                },700);
+                finTour();
 
 
             });
@@ -269,7 +241,7 @@ public class PokeController {
 
     public void PrendDeg (int lesDega,Boolean joueur) {
         Image imgVide = new Image(getClass().getResourceAsStream("/img/Vide.png"));
-        if (joueur)
+        if (joueur )
         {
             for( int i = 0 ; i<3 ; i++)
             {
@@ -283,9 +255,10 @@ public class PokeController {
                     }
                 }, 50);
             }
+
             equipeJ1.get(indexJ1).setVie(equipeJ1.get(indexJ1).getVie()-lesDega);
         }
-        else
+        else if (! equipeJ2.isEmpty())
         {
             for( int i = 0 ; i<3 ; i++)
             {
@@ -316,16 +289,8 @@ public class PokeController {
                 inventaire.get(finalI).useObejct(equipeJ1.get(indexJ1));
                 openObjectMenu();
                 LabelLogDroite.setText(LabelLogDroite.getText()+"\r \r"+inventaire.get(finalI).getDesc());
-                closeMenu();
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Platform.runLater(()->botAttack());
-                    }
-                },700);
                 updateDisplay();
-
+                finTour();
             });
             if (inventaire.get(finalI).getNb()>=0){
                 rightColumn.getChildren().add(b);
@@ -353,31 +318,28 @@ public class PokeController {
 
     public void Brule(Boolean joueur){
 
-        Image imgRouge = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/Rouge.png")));
-
-        if (joueur)
+        Image imgRouge = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Rouge.png")));
+        Timer timer = new Timer();
+        if (joueur && ! equipeJ1.isEmpty())
         {
-            for( int i = 0 ; i<5 ; i++)
+            for( int i = 0 ; i<3 ; i++)
             {
                 imageJ1.setImage(imgRouge);
-                imageJ1.setStyle("background-color: Red;");
-                Timer timer = new Timer();
+
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         Image imgImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/" + equipeJ1.get(indexJ1).getNom() + ".png")));
-                        System.out.println("coucouJeSuisLa");
                         imageJ1.setImage(imgImage);
                     }
-                }, 50);
+                }, 60);
             }
         }
-        else
+        else if (! equipeJ2.isEmpty())
         {
             for( int i = 0 ; i<3 ; i++)
             {
                 imageJ2.setImage(imgRouge);
-                Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -387,6 +349,33 @@ public class PokeController {
                 }, 50);
             }
         }
+    }
+
+    public void finTour(){
+        closeMenu();
+        Timer timer1 = new Timer();
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> botAttack());
+            }
+        },700);
+
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (equipeJ1.get(indexJ1).getEtat().getEtat() != "null" && ! equipeJ1.isEmpty()) {
+                    Platform.runLater(() -> EtatPoke(equipeJ1.get(indexJ1).getEtat().getEtat(), true));
+                }
+                if (equipeJ2.get(indexJ2).getEtat().getEtat() != "null" && ! equipeJ2.isEmpty() ) {
+                    Platform.runLater(() -> EtatPoke(equipeJ2.get(indexJ2).getEtat().getEtat(),false));
+                }
+
+            }
+        },700);
+
     }
 
 }
