@@ -15,6 +15,7 @@ public class PokeClassController {
 
     private List<Attack> touteLesAttacks = new ArrayList<>();
     private List<Carte> touteLesCartes = new ArrayList<>();
+    private List<Carte> touteLesCartesBot = new ArrayList<>();
     private List<Carte> deckJoueur = new ArrayList<>();
     private List<Carte> deckBot = new ArrayList<>();
     private List<Carte> mainJoueurListe = new ArrayList<>();
@@ -46,14 +47,14 @@ public class PokeClassController {
         scoreJoueur = 0;
         touteLesAttacks = AttackLoader.loadAttacks("src/main/resources/attacks.txt");
         touteLesCartes = CarteLoader.load("src/main/resources/cartes/cartes.txt", touteLesAttacks);
+        touteLesCartesBot = CarteLoader.load("src/main/resources/cartes/cartes.txt", touteLesAttacks);
         deckBot = new ArrayList<>(touteLesCartes);
-        deckJoueur = new ArrayList<>(touteLesCartes);
+        deckJoueur = new ArrayList<>(touteLesCartesBot);
 
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/Rouge.png"))); // image dos carte
         dosCarteBot.setImage(img);
         dosCarteJoueur.setImage(img);
 
-        energie.setOnAction(e -> openEnergieMenu());
 
         for (int i = 0; i < 5; i++) {
             pioche(true);
@@ -74,8 +75,12 @@ public class PokeClassController {
 
         for (int i = 0; i < mainJoueurListe.size(); i++) {
             Button buttonCarte = new Button(mainJoueurListe.get(i).getNom());
+            VBox carte = new VBox(buttonCarte);
             int iutiliser = i;
-            buttonCarte.setOnAction(e -> carteSellectioner(mainJoueurListe.get(iutiliser)));
+            buttonCarte.setOnAction(e -> {
+                carteSellectioner(mainJoueurListe.get(iutiliser));
+            });
+            buttonCarte.setOnDragOver(t->openViewAtt(carte,mainJoueurListe.get(iutiliser)));
             mainJoueur.getChildren().add(buttonCarte);
         }
 
@@ -86,24 +91,29 @@ public class PokeClassController {
         }
 
         mainJoueur.getChildren().add(energie);
-        energie.setOnAction(e->{openEnergieMenu();});
+        if (! posJoueur.isEmpty()){
+            energie.setOnAction(e->{openEnergieMenu();});
+        }
+
 
 
         for (int p = 0; p < bancJoueurListe.size(); p++) {
+            int putiliser = p;
             VBox vbCarte = new VBox(new Label(bancJoueurListe.get(p).getVie() + ""));
             Button buttonCarte = new Button(bancJoueurListe.get(p).getNom());
+            buttonCarte.setOnAction(e-> openViewAtt(vbCarte , bancJoueurListe.get(putiliser))) ;
             vbCarte.getChildren().add(buttonCarte);
             vbCarte.getChildren().add(new Label("" + bancJoueurListe.get(p).getEnergie()));
-            int putiliser = p;
             buttonCarte.setOnAction(e -> carteSellectioner(bancJoueurListe.get(putiliser)));
             bancJoueur.getChildren().add(vbCarte);
         }
 
         for (int j = 0; j < bancBotListe.size(); j++) {
             VBox vbCarte = new VBox(new Label(bancBotListe.get(j).getVie() + ""));
-            Label labelCarteBot = new Label();
-            labelCarteBot.setGraphic(new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/Rouge.png")))));
-            vbCarte.getChildren().add(labelCarteBot);
+            Button CarteBot = new Button(bancBotListe.get(j).getNom());
+            int finalJ = j;
+            CarteBot.setOnAction(e->openViewAtt(vbCarte , bancBotListe.get(finalJ)));
+            vbCarte.getChildren().add(CarteBot);
             vbCarte.getChildren().add(new Label("" + bancBotListe.get(j).getEnergie()));
             bancBot.getChildren().add(vbCarte);
         }
@@ -120,6 +130,7 @@ public class PokeClassController {
         if (!posBot.isEmpty()) {
             Button cartePosAc = new Button(posBot.getLast().getNom());
             VBox carteVb = new VBox(new Label(String.valueOf(posBot.getLast().getEnergie())), cartePosAc, new Label(String.valueOf(posBot.getLast().getVie())));
+            cartePosAc.setOnAction(e->openViewAtt(carteVb , posBot.getLast()));
             carteBot.getChildren().add(carteVb);
         }
     }
@@ -170,13 +181,13 @@ public class PokeClassController {
                 if (carte.getEnergie() >= attack.getEnergie()) {
                     carte.setEnergie(carte.getEnergie() - attack.getEnergie());
                     carteAttackAvec(attack, false);
-                    finTour();
+                    finTour(false);
                 }
             });
             vbAtt.getChildren().add(buAttack);
         }
 
-        Button switchBtn = new Button("Retraite");
+        Button switchBtn = new Button("Retraite " + posJoueur.getLast().getRetraite());
         switchBtn.setOnAction(e -> openSwitchMenu());
         vbAtt.getChildren().add(switchBtn);
         vbAtt.setPadding(new Insets(10));
@@ -259,14 +270,38 @@ public class PokeClassController {
         }
     }
 
+    /**
+     * @param joueur si joueur == true alors c'est au joueur de jouer
+     */
+
+    void finTour(boolean joueur ) {
+        if (joueur) {
+            pioche(joueur);
+            afficherLesCartes();
+            if (posJoueur.isEmpty() || posJoueur.getLast().getVie() <= 0) carteSwitch();
+            tour++;
+            TourAnimator.animer(labelTour, tour); // petite anime de ma part je sais c'est moche mais sa marche
+            System.out.println("Tour " + tour);
+        }
+        else {
+            afficherLesCartes();
+            if (posJoueur.isEmpty() || posJoueur.getLast().getVie() <= 0) carteSwitch();
+            botTour();
+            tour++;
+            TourAnimator.animer(labelTour, tour); // petite anime de ma part je sais c'est moche mais sa marche
+            System.out.println("Tour " + tour);
+        }
+    }
+
     @FXML
-    void finTour() {
+    void finTour( ) {
         afficherLesCartes();
         if (posJoueur.isEmpty() || posJoueur.getLast().getVie() <= 0) carteSwitch();
-        jouerTour();
         tour++;
+        botTour();
         TourAnimator.animer(labelTour, tour); // petite anime de ma part je sais c'est moche mais sa marche
         System.out.println("Tour " + tour);
+
     }
 
 
@@ -300,7 +335,7 @@ public class PokeClassController {
         return (int) (Math.random() * (max - min + 1) + min);
     }
 
-    private void jouerTour() {
+    private void botTour() {
         pioche(false);
         if ((posBot.isEmpty() || posBot.getLast().getVie() <= 0) && !mainBotListe.isEmpty()) {
             Carte carteAJouer = mainBotListe.remove(0);
@@ -322,6 +357,18 @@ public class PokeClassController {
         if (!posBot.isEmpty()) {
             posBot.getLast().setEnergie(posBot.getLast().getEnergie() + 1);
         }
+        afficherLesCartes();
+        finTour(true);
     }
 
+    void openViewAtt (VBox vbcarte , Carte carte){
+        vbcarte.getChildren().clear();
+        Button btCarte = new Button(carte.getNom());
+        vbcarte.getChildren().add(btCarte);
+        btCarte.setOnAction(e-> afficherLesCartes());
+        for (Attack attack: carte.getAttcksCarte() ){
+            vbcarte.getChildren().add(new Label(attack.getNomAttack() + " "+attack.getEnergie()));
+        }
+
+    }
 }
